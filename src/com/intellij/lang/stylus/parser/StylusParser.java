@@ -49,27 +49,37 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 
 		if(builder.getTokenType() == DOT)
 		{
+			PsiBuilder.Marker classMarker = builder.mark();
 			builder.advanceLexer();
 
 			if(builder.getTokenType() == IDENTIFIER)
 			{
-				parseOneToken(builder, SELECTOR_CLASS);
+				builder.advanceLexer();
+
+				classMarker.done(SELECTOR_CLASS);
 			}
 			else
 			{
-				builder.error("Identifier expected");
+				classMarker.error("Identifier expected");
 			}
 		}
 
 		advanceUntilNotEqual(builder, NEWLINE);
 
-		if(builder.getTokenType() == INDENT)
+		while(!builder.eof())
 		{
-			parseProperty(builder);
-		}
-		else
-		{
-			builder.error("Expected property");
+			if(builder.getTokenType() == INDENT)
+			{
+				parseProperty(builder);
+			}
+			else if(builder.getTokenType() == NEWLINE)
+			{
+				builder.advanceLexer();
+			}
+			else
+			{
+				break;
+			}
 		}
 
 		marker.done(SELECTOR_TAG);
@@ -95,7 +105,7 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 
 	private static void advanceUntilNotEqual(PsiBuilder builder, IElementType elementType)
 	{
-		while(builder.getTokenType() == elementType)
+		while(!builder.eof() && builder.getTokenType() == elementType)
 		{
 			builder.advanceLexer();
 		}
@@ -103,7 +113,7 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 
 	private static void advanceUntilEqual(PsiBuilder builder, IElementType elementType)
 	{
-		while(builder.getTokenType() != elementType)
+		while(!builder.eof() && builder.getTokenType() != elementType)
 		{
 			builder.advanceLexer();
 		}

@@ -72,7 +72,6 @@ Identifier = ({Letter} | @ | -) ({Letter} | {Digit} | @ | -)*
 {Identifier} {return IDENTIFIER;}
 
 
-"."                            { return OP_PLUS; }
 "+"                            { return OP_PLUS; }
 "-"                            { return OP_MINUS; }
 "*"                            { return OP_AR_MUL; }

@@ -48,25 +48,39 @@ public class StylusLexer extends LookAheadLexer implements StylusTokenTypes
 				}
 				break;
 			case SELECTOR_ENDED:
-				boolean found = false;
-				while(true)
+				if(tokenType == WHITESPACE)
 				{
-					IElementType temp = baseLexer.getTokenType();
-					if(temp == WHITESPACE)
+					boolean found = false;
+					while(true)
 					{
-						baseLexer.advance();
-						found = true;
+						IElementType temp = baseLexer.getTokenType();
+						if(temp == WHITESPACE)
+						{
+							baseLexer.advance();
+							found = true;
+						}
+						else
+						{
+							break;
+						}
 					}
-					else
+
+					if(found)
 					{
-						break;
+						myState = PROPERTY_NAME_WAIT;
+						addToken(baseLexer.getTokenStart(), INDENT);
+						return;
 					}
 				}
-
-				if(found)
+				else if(tokenType == NEWLINE)
 				{
-					myState = PROPERTY_NAME_WAIT;
-					addToken(baseLexer.getTokenStart(), INDENT);
+					// do nothing skip
+				}
+				else if(tokenType == IDENTIFIER)
+				{
+					// if this is identifier this is new selector
+					myState = NONE;
+					lookAhead(baseLexer);
 					return;
 				}
 				break;
