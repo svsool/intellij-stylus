@@ -99,7 +99,8 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 		}
 		else
 		{
-			marker.error("Expected identifier");
+			marker.drop();
+			advanceUntilEqual(builder, NEWLINE);
 		}
 	}
 
