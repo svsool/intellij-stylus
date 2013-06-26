@@ -66,11 +66,13 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 
 		advanceUntilNotEqual(builder, NEWLINE);
 
+		boolean haveProperties = false;
 		while(!builder.eof())
 		{
 			if(builder.getTokenType() == INDENT)
 			{
 				parseProperty(builder);
+				haveProperties = true;
 			}
 			else if(builder.getTokenType() == NEWLINE)
 			{
@@ -80,6 +82,11 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 			{
 				break;
 			}
+		}
+
+		if(!haveProperties)
+		{
+			builder.error("Rule can not be empty");
 		}
 
 		marker.done(SELECTOR_TAG);
