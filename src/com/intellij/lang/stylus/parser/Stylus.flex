@@ -8,10 +8,8 @@ import com.intellij.psi.TokenType;
 import java.util.*;
 import java.util.regex.*;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.stylus.parser.IndentUtil;
-import com.intellij.util.containers.Stack;
 
-import static com.intellij.lang.stylus.StylusTypes.*;
+import static com.intellij.lang.stylus.psi.StylusTokenTypes.*;
 import static com.intellij.lang.stylus.StylusParserDefinition.*;
 
 %%
@@ -57,68 +55,47 @@ N = #([a-fA-F0-9]{1})
 
 Color = {RRGGBBAA} | {RRGGBB} | {RGB} | {NN} | {N}
 
-// see http://www.unicode.org/unicode/reports/tr18/
-WSP        = [ \t\b]
-WSPNL      = [\u2028\u2029\u000A\u000B\u000C\u000D\u0085\t\b\ ]
-NL         = [\u2028\u2029\u000A\u000B\u000C\u000D\u0085] | \u000D\u000A
-NNL        = [^\u2028\u2029\u000A\u000B\u000C\u000D\u0085]
+TAB = \t
+NL = \n
+WS = [ ]
 
-Tabs = ([\t]*)[ \t]*
-Spaces = ([ \t]*)
-IndentParts = {Tabs} | {Spaces}
-Indent = {NL} {WSP}+
-
-Unit = em|ex|ch|rem|vw|vh|vmin|cm|mm|in|pt|pc|px|%
-
-Ident = ({Letter} | @ | -) ({Letter} | {Digit} | @ | -)*
-Selector = ('.' | '#')? {Ident}
-
+Identifier = ({Letter} | @ | -) ({Letter} | {Digit} | @ | -)*
 
 %%
-  {Comment}                     { return STYL_COMMENT; }
-  {CommentBlock}                { return STYL_BLOCK_COMMENT; }
-  {Number} {return STYL_NUMBER;}
-  {Unit} {return STYL_UNIT;}
-  {Color} {return STYL_COLOR;}
+{Comment}                     { return COMMENT; }
+{CommentBlock}                { return BLOCK_COMMENT; }
+{Number} {return NUMBER;}
 
- {Indent} { return newline(); }
- {WSP}* {return com.intellij.psi.TokenType.WHITE_SPACE; }
- {NL} {return com.intellij.psi.TokenType.WHITE_SPACE; }
+{WS} {return WHITESPACE; }
+{TAB} {return TAB; }
+{NL} { return NEWLINE; }
+{Identifier} {return IDENTIFIER;}
 
-  {Selector} / {WSP}* {Indent} {return STYL_SELECTOR_STRING;}
-  {Selector} / {WSP}* ({Comment} | {CommentBlock}) {WSPNL}* {return STYL_SELECTOR_STRING;}
-  {Selector} / {WSP}* "{" {return STYL_SELECTOR_STRING;}
-  {Selector} / {WSP}* "," {WSP}* {NL}? {return STYL_SELECTOR_STRING;}
-  {Ident} {return STYL_IDENT;}
 
-  /* Literals */
-       //{Number}                      { return STYL_NUMBER; }
+"."                            { return OP_PLUS; }
+"+"                            { return OP_PLUS; }
+"-"                            { return OP_MINUS; }
+"*"                            { return OP_AR_MUL; }
+"/"                            { return OP_AR_DIV; }
+">"                            { return OP_GT; }
+"="                            { return OP_EQ; }
+"!"                            { return OP_EXL; }
 
-        /* operators */
-         "+"                            { return STYL_OP_PLUS; }
-         "-"                            { return STYL_OP_MINUS; }
-         "*"                            { return STYL_OP_AR_MUL; }
-         "/"                            { return STYL_OP_AR_DIV; }
-         ">"                            { return STYL_OP_GT; }
-         "="                            { return STYL_OP_EQ; }
-         "!"                            { return STYL_OP_EXL; }
-
-       /*separators*/
-         "("                           { return STYL_PAR_LEFT; }
-         ")"                           { return STYL_PAR_RIGHT; }
-         "{"                           {return STYL_CURLY_LEFT; }
-         "}"                           { return STYL_CURLY_RIGHT; }
-         "["                           { return STYL_BRACKET_LEFT; }
-         "]"                           { return STYL_BRACKET_RIGHT; }
-         "."                           { return STYL_DOT; }
-         ":"                           { return STYL_COLON; }
-         ";"                           { return STYL_SEMI; }
-         ","                           { return STYL_COMMA; }
-         "#"                           { return STYL_RADIX; }
-         "$"                           { return STYL_DOLLAR; }
-         "&"                           { return STYL_AMP; }
-         "^"                           { return STYL_HAT; }
-
+"("                           { return PAR_LEFT; }
+")"                           { return PAR_RIGHT; }
+"{"                           {return CURLY_LEFT; }
+"}"                           { return CURLY_RIGHT; }
+"["                           { return BRACKET_LEFT; }
+"]"                           { return BRACKET_RIGHT; }
+"#"                           { return SHARP; }
+"."                           { return DOT; }
+":"                           { return COLON; }
+";"                           { return SEMI; }
+","                           { return COMMA; }
+"#"                           { return RADIX; }
+"$"                           { return DOLLAR; }
+"&"                           { return AMP; }
+"^"                           { return HAT; }
 
 . { return com.intellij.psi.TokenType.BAD_CHARACTER; }
 

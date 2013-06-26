@@ -1,24 +1,27 @@
 package com.intellij.lang.stylus.editor;
 
+import static com.intellij.lang.stylus.editor.StylusSyntaxHighlighter.STYLUS_COMMENT;
+import static com.intellij.lang.stylus.editor.StylusSyntaxHighlighter.STYLUS_IDENTIFIER;
+import static com.intellij.lang.stylus.editor.StylusSyntaxHighlighter.STYLUS_NUMBER;
+
+import java.util.Map;
+
+import javax.swing.Icon;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.stylus.StylusIcons;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import com.intellij.lang.stylus.StylusIcons;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.util.Map;
-
-import static com.intellij.lang.stylus.editor.StylusSyntaxHighlighter.*;
 
 public class StylusColorSettingsPage implements ColorSettingsPage {
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-            new AttributesDescriptor("Comment", STYL_COMMENT),
-            new AttributesDescriptor("Identifier", STYL_IDENT),
-            new AttributesDescriptor("Number", STYL_NUMBER),
+            new AttributesDescriptor("Comment", STYLUS_COMMENT),
+            new AttributesDescriptor("Identifier", STYLUS_IDENTIFIER),
+            new AttributesDescriptor("Number", STYLUS_NUMBER),
     };
 
     @Nullable

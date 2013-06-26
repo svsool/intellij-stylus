@@ -6,14 +6,12 @@
 
 package com.intellij.lang.stylus.psi;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.psi.FileViewProvider;
 import com.intellij.lang.stylus.StylusFileType;
 import com.intellij.lang.stylus.StylusLanguage;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.psi.FileViewProvider;
 
 public class StylusFile extends PsiFileBase {
     public StylusFile(@NotNull FileViewProvider viewProvider) {
@@ -29,10 +27,5 @@ public class StylusFile extends PsiFileBase {
     @Override
     public String toString() {
         return "Stylus File";
-    }
-
-    @Override
-    public Icon getIcon(int flags) {
-        return super.getIcon(flags);
     }
 }

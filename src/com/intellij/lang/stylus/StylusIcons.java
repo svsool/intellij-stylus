@@ -6,10 +6,11 @@
 
 package com.intellij.lang.stylus;
 
+import javax.swing.Icon;
+
 import com.intellij.openapi.util.IconLoader;
 
-import javax.swing.*;
-
-public class StylusIcons {
-    public static final Icon FILE = IconLoader.getIcon("/icons/stylus-file-16.png");
+public interface StylusIcons
+{
+	Icon FILE = IconLoader.getIcon("/icons/stylus-file-16.png");
 }
