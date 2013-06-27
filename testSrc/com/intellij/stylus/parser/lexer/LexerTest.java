@@ -15,11 +15,13 @@ public class LexerTest
 		String text =
 				"body\n" +
 				"  font 12px Helvetica, Arial, sans-serif\n" +
-				"  border-radius 5px\n" +
+				"    div\n" +
+				"      font 12px Helvetica, Arial, sans-serif\n" +
+				"\n" +
 				"a.button\n" +
 				"  -webkit-border-radius 5px\n" +
 				"  -moz-border-radius 5px\n" +
-				"  border-radius 5px";
+				"  border-radius 5px\n";
 
 		StylusLexer lexer = new StylusLexer();
 		lexer.start(text);

@@ -13,4 +13,11 @@ public class StylusRule extends StylusElement
 	{
 		super(node);
 	}
+
+	@Override
+	protected void accept(@NotNull StylusElementVisitor elementVisitor)
+	{
+		elementVisitor.visitRule(this);
+	}
+
 }
