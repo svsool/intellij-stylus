@@ -41,7 +41,7 @@ public class StylusSyntaxHighlighter extends SyntaxHighlighterBase implements St
 
 	public static final TextAttributesKey STYLUS_KEYWORD = TextAttributesKey.createTextAttributesKey("STYLUS.KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
 
-	public static final TextAttributesKey STYLUS_IMPORTANT = TextAttributesKey.createTextAttributesKey("STYLUS.IMPORTANT", DefaultLanguageHighlighterColors.KEYWORD);
+	public static final TextAttributesKey STYLUS_SELECTOR_NAME = TextAttributesKey.createTextAttributesKey("STYLUS.SELECTOR_NAME", DefaultLanguageHighlighterColors.KEYWORD);
 
 	public static final TextAttributesKey STYLUS_FUNCTION = TextAttributesKey.createTextAttributesKey("STYLUS.FUNCTION", XmlHighlighterColors.HTML_TAG_NAME);
 

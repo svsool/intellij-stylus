@@ -4,11 +4,6 @@ import com.intellij.psi.tree.IElementType;
 
 public interface StylusTokenTypes
 {
-	IElementType PROPERTY_NAME = new StylusElementType("PROPERTY_NAME");
-
-	IElementType SELECTOR_TAG_NAME = new StylusElementType("SELECTOR_TAG_NAME");
-
-
 	IElementType COMMENT = new StylusTokenType("COMMENT");
 	IElementType BLOCK_COMMENT = new StylusTokenType("BLOCK_COMMENT");
 
