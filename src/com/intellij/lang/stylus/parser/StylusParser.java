@@ -139,6 +139,8 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 
 	private void parseLinesWithCssStyle(PsiBuilder builder, Part part)
 	{
+		boolean found = false;
+
 		while(!builder.eof())
 		{
 			parseLine(builder, true);
@@ -150,12 +152,18 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 				builder.advanceLexer();
 
 				doneMarker(part);
+				found = true;
 				break;
 			}
 			else
 			{
 				builder.advanceLexer();
 			}
+		}
+
+		if(!found)
+		{
+			builder.error("'}' expected");
 		}
 	}
 
