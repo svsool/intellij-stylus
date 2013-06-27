@@ -55,7 +55,7 @@ public class StylusSyntaxHighlighter extends SyntaxHighlighterBase implements St
 
 	static
 	{
-		safeMap(ourTextAttributesKeys, KEYWORD, STYLUS_KEYWORD);
+		fillMap(ourTextAttributesKeys, STYLUS_KEYWORD, KEYWORD);
 	}
 
 	@NotNull
