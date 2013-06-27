@@ -19,6 +19,11 @@ public class StylusParserTest extends ParsingTestCase
 		doTest(true);
 	}
 
+	public void testCssStyle()
+	{
+		doTest(true);
+	}
+
 	@Override
 	protected String getTestDataPath()
 	{

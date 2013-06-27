@@ -82,8 +82,8 @@ Identifier = ({Letter} | @ | -) ({Letter} | {Digit} | @ | -)*
 
 "("                           { return PAR_LEFT; }
 ")"                           { return PAR_RIGHT; }
-"{"                           {return CURLY_LEFT; }
-"}"                           { return CURLY_RIGHT; }
+"{"                           { return LBRACE; }
+"}"                           { return RBRACE; }
 "["                           { return BRACKET_LEFT; }
 "]"                           { return BRACKET_RIGHT; }
 "#"                           { return SHARP; }

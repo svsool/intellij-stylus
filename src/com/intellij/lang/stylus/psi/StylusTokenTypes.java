@@ -19,8 +19,6 @@ public interface StylusTokenTypes
 	IElementType COLON = new StylusTokenType(":");
 	IElementType COLOR = new StylusTokenType("color");
 	IElementType COMMA = new StylusTokenType("COMMA");
-	IElementType CURLY_LEFT = new StylusTokenType("{");
-	IElementType CURLY_RIGHT = new StylusTokenType("}");
 	IElementType DOLLAR = new StylusTokenType("$");
 	IElementType DOT = new StylusTokenType("DOT");
 	IElementType HAT = new StylusTokenType("^");
@@ -30,6 +28,9 @@ public interface StylusTokenTypes
 	IElementType INDENT = new StylusTokenType("INDENT");
 
 	IElementType NUMBER = new StylusTokenType("NUMBER");
+
+	IElementType LBRACE = new StylusTokenType("LBRACE");
+	IElementType RBRACE = new StylusTokenType("RBRACE");
 
 	IElementType OP_AR_DIV = new StylusTokenType("/");
 	IElementType OP_AR_MUL = new StylusTokenType("*");

@@ -38,9 +38,10 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 		builder.setDebugMode(true);
 
 		final PsiBuilder.Marker mark = builder.mark();
+
 		while(!builder.eof())
 		{
-			parseLine(builder);
+			parseLine(builder, false);
 
 			if(builder.getTokenType() == NEWLINE)
 			{
@@ -58,7 +59,7 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 		return builder.getTreeBuilt();
 	}
 
-	private void parseLine(PsiBuilder builder)
+	private void parseLine(PsiBuilder builder, boolean cssStyle)
 	{
 		int indent = 0;
 		while(builder.getTokenType() == INDENT)
@@ -68,38 +69,41 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 		}
 
 		// if line is ended return
-		if(builder.getTokenType() == NEWLINE)
+		if(builder.getTokenType() == NEWLINE || cssStyle && builder.getTokenType() == RBRACE)
 		{
 			return;
 		}
 
-		final Part prevPart = myParts.peekLast();
-		if(prevPart != null)
+		if(!cssStyle)
 		{
-			if(prevPart.myIndent == indent) // new property - done prev property
+			final Part prevPart = myParts.peekLast();
+			if(prevPart != null)
 			{
-				doneMarker(prevPart);
-			}
-			else if(prevPart.myIndent < indent) // child
-			{
-				prevPart.myDoneElement = RULE;
-			}
-			else // new child of parent
-			{
-				// A
-				//  B
-				// C - this is current
-
-				final Iterator<Part> partIterator = myParts.descendingIterator();
-				while(partIterator.hasNext())
+				if(prevPart.myIndent == indent) // new property - done prev property
 				{
-					Part next = partIterator.next();
+					doneMarker(prevPart);
+				}
+				else if(prevPart.myIndent < indent) // child
+				{
+					prevPart.myDoneElement = RULE;
+				}
+				else // new child of parent
+				{
+					// A
+					//  B
+					// C - this is current
 
-					doneMarker(next);
-
-					if(next.myIndent == 0)
+					final Iterator<Part> partIterator = myParts.descendingIterator();
+					while(partIterator.hasNext())
 					{
-						break;
+						Part next = partIterator.next();
+
+						doneMarker(next);
+
+						if(next.myIndent == 0)
+						{
+							break;
+						}
 					}
 				}
 			}
@@ -112,40 +116,60 @@ public class StylusParser implements PsiParser, StylusTokenTypes, StylusNodeType
 
 		myParts.add(part);
 
+		while(!builder.eof())
+		{
+			if(builder.getTokenType() == NEWLINE)
+			{
+				break;
+			}
+			else if(builder.getTokenType() == LBRACE)
+			{
+				builder.advanceLexer();
 
-		advanceUntilEqual(builder, NEWLINE);
+				part.myDoneElement = RULE;
+
+				parseLinesWithCssStyle(builder, part);
+			}
+			else
+			{
+				builder.advanceLexer();
+			}
+		}
+	}
+
+	private void parseLinesWithCssStyle(PsiBuilder builder, Part part)
+	{
+		while(!builder.eof())
+		{
+			parseLine(builder, true);
+
+			if(builder.getTokenType() == RBRACE)
+			{
+				doneMarker(myParts.peekLast());
+
+				builder.advanceLexer();
+
+				doneMarker(part);
+				break;
+			}
+			else
+			{
+				builder.advanceLexer();
+			}
+		}
 	}
 
 	private static void doneMarker(Part part)
 	{
+		if(part == null)
+		{
+			return;
+		}
 		final PsiBuilder.Marker marker = part.myMarker;
 		if(marker != null)
 		{
 			marker.done(part.myDoneElement);
 			part.myMarker = null;
 		}
-	}
-
-	private static void advanceUntilNotEqual(PsiBuilder builder, IElementType elementType)
-	{
-		while(!builder.eof() && builder.getTokenType() == elementType)
-		{
-			builder.advanceLexer();
-		}
-	}
-
-	private static void advanceUntilEqual(PsiBuilder builder, IElementType elementType)
-	{
-		while(!builder.eof() && builder.getTokenType() != elementType)
-		{
-			builder.advanceLexer();
-		}
-	}
-
-	private static void parseOneToken(PsiBuilder builder, IElementType doneTo)
-	{
-		final PsiBuilder.Marker mark = builder.mark();
-		builder.advanceLexer();
-		mark.done(doneTo);
 	}
 }
