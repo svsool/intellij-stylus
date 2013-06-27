@@ -8,15 +8,18 @@ package com.intellij.lang.stylus;
 
 import com.intellij.lang.Language;
 
-public class StylusLanguage extends Language {
-  public static final StylusLanguage INSTANCE = new StylusLanguage();
+public class StylusLanguage extends Language
+{
+	public static final StylusLanguage INSTANCE = new StylusLanguage();
 
-  protected StylusLanguage() {
-    super("Stylus");
-  }
+	protected StylusLanguage()
+	{
+		super("STYLUS");
+	}
 
-  @Override
-  public String getDisplayName() {
-    return "Stylus language";
-  }
+	@Override
+	public String getDisplayName()
+	{
+		return "Stylus language";
+	}
 }

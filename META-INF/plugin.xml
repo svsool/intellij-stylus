@@ -6,8 +6,9 @@
 
 	<extensions defaultExtensionNs="com.intellij">
 		<fileTypeFactory implementation="com.intellij.lang.stylus.StylusFileTypeFactory"/>
-		<lang.parserDefinition language="Stylus" implementationClass="com.intellij.lang.stylus.StylusParserDefinition"/>
-		<lang.syntaxHighlighterFactory key="Stylus" implementationClass="com.intellij.lang.stylus.editor.StylusSyntaxHighlighterFactory"/>
+		<lang.braceMatcher language="STYLUS" implementationClass="com.intellij.lang.stylus.editor.StylusBraceMatcher" />
+		<lang.parserDefinition language="STYLUS" implementationClass="com.intellij.lang.stylus.StylusParserDefinition"/>
+		<lang.syntaxHighlighterFactory key="STYLUS" implementationClass="com.intellij.lang.stylus.editor.StylusSyntaxHighlighterFactory"/>
 		<colorSettingsPage implementation="com.intellij.lang.stylus.editor.StylusColorSettingsPage"/>
 		<highlightVisitor implementation="com.intellij.lang.stylus.editor.highlight.StylusHighlightVisitor"/>
 	</extensions>
